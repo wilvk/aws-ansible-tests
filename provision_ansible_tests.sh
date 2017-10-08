@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 #please set your custom variables here:
 #please enter your github account alias:
 GITHUB_ACCOUNT=
@@ -26,6 +28,8 @@ touch "${AWS_CREDENTIALS_FILE}"
 echo "Setting AWS variables and credentials"
 
 export ADMIN_PROFILE=$ADMIN_USER
+echo "export ADMIN_PROFILE=$ADMIN_USER" >> ~/.bash_profile
+
 echo "[${ADMIN_USER}]" >> $AWS_CREDENTIALS_FILE
 echo "aws_access_key_id=${ADMIN_ACCESS_KEY}" >> $AWS_CREDENTIALS_FILE
 echo "aws_secret_access_key=${ADMIN_SECRET_ACCESS_KEY}" >> $AWS_CREDENTIALS_FILE
@@ -43,10 +47,6 @@ cd ~/ansible
 git remote add upstream https://github.com/ansible/ansible
 git pull upstream devel
 
-echo "Setting Ansible hacking environment variables"
-source ~/ansible/hacking/env-setup
-echo "source ~/ansible/hacking/env-setup" >> ~/.bash_profile
-
 echo "Installing and configuring Docker"
 sudo yum -y install docker
 sudo groupadd docker
@@ -57,10 +57,16 @@ newgrp docker
 echo "Installing AWS dependencies"
 pip install --user botocore boto3 boto awscli
 
-echo "Creating Ansible Test User: ${ANSIBLE_TEST_ACCOUNT}"
+echo "Creating Ansible Test User and group with AdministratorAccess for: ${ANSIBLE_TEST_ACCOUNT}"
+aws iam delete-user --user-name ${ANSIBLE_TEST_ACCOUNT} --profile ${ADMIN_PROFILE}
+aws iam delete-group --group-name ${ANSIBLE_TEST_ACCOUNT} --profile ${ADMIN_PROFILE}
 aws iam create-user --user-name ${ANSIBLE_TEST_ACCOUNT} --profile ${ADMIN_PROFILE}
+aws iam create-group --group-name ${ANSIBLE_TEST_ACCOUNT} --profile ${ADMIN_PROFILE}
+aws iam attach-group-policy --group-name ${ANSIBLE_TEST_ACCOUNT} --policy-arn arn:aws:iam::aws:policy/AdministratorAccess --profile ${ADMIN_PROFILE}
 aws iam add-user-to-group --user-name ${ANSIBLE_TEST_ACCOUNT} --group_name ${ANSIBLE_TEST_ACCOUNT} --profile ${ADMIN_PROFILE}
-aws iam create-access-key --user-name ${ANSIBLE_TEST_ACCOUNT} --profile ${ADMIN_PROFILE}
+aws iam create-access-key --user-name ${ANSIBLE_TEST_ACCOUNT} --profile ${ADMIN_PROFILE} --output text
+
+# capture output from create-access-key and add to credentials then use in sts_output for session token
 
 #echo "Creating Ansible Cloud Config file from template"
 
@@ -87,8 +93,12 @@ ansible-playbook ~/ansible/hacking/aws_config/setup-iam.yml -e iam_group=${ANSIB
 echo "Checking Admin User ${ADMIN_USER} is set correctly:"
 aws sts get-caller-identity --profile=${ADMIN_PROFILE}
 
+echo "Setting Ansible hacking environment variables"
+source ~/ansible/hacking/env-setup
+echo "echo 'before running Ansible Tests, run: source ~/ansible/hacking/env-setup'" >> ~/.bash_profile
+
 echo "Checking Ansible Test User ${ANSIBLE_TEST_ACCOUNT} is set correctly: "
 ansible -m shell -a 'aws sts get-caller-identity' -e @~/ansible/test/integration/cloud-config-aws.yml localhost
 
-echo "Running basic ec2_group Ansible Tests to confirm all is working"
-ansible-test intgration --docker -v ec2_group
+#echo "Running basic ec2_group Ansible Tests to confirm all is working"
+#ansible-test intgration --docker -v ec2_group
