@@ -11,16 +11,16 @@
         file: vars.yml
 
     - name: install all dependencies
-      include: installs.yml
+      include_tasks: installs.yml
 
     - name: set aws credentials
-      include: credentials.yml
+      include_tasks: credentials.yml
 
     - name: clone Ansible git repo
-      include: clone.yml
+      include_tasks: clone.yml
 
     - name: create ansible test user
-      include: ansible_test_user.yml
+      include_tasks: ansible_test_user.yml
 
     - name: run user verification tests
-      include: tests.yml
+      include_tasks: tests.yml

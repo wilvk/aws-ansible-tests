@@ -3,14 +3,15 @@
 
 - name: clone personal Ansible repo
   git:
-    repo: "https://github.com/{{ github_account }}/ansible"
+    repo: "https://github.com/{{ github_username }}/ansible"
     dest: "~/ansible"
 
 - name: add remote upstream of Ansible
   shell: "git remote add upstream https://github.com/ansible/ansible"
   args:
     chdir: "~/ansible"
-    
+  ignore_errors: yes
+
 - name: sync local repo with upstream
   shell: git pull upstream devel
   args:

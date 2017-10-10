@@ -37,7 +37,8 @@
 
 - name: get an aws session token
   sts_session_token:
-  profile: "{{ aws_admin_user }}"
+    profile: "{{ aws_admin_user }}"
+    region: "{{ aws_test_region }}"
   register: ansible_test_user_session_token
 
 - debug:
@@ -49,6 +50,8 @@
   shell: cp ~/ansible/test/integration/cloud-config-aws.yml.template ~/ansible/test/integration/cloud-config-aws.yml
 
 # TODO: modify template with security token details
+
+# TODO: source hacking/env-setup
 
 - name: configure ansible for test user
   shell: "ansible-playbook ~/ansible/hacking/aws_config/setup-iam.yml -e iam_group={{ aws_ansible_test_user }} -e profile={{ aws_admin_user }} -e region=${{ aws_test_region }}"
