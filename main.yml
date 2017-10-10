@@ -1,0 +1,26 @@
+---
+# File:
+
+- name: playbook to stage environment for running Ansible tests
+  hosts: localhost
+  become: yes
+  gather_facts: yes
+  tasks:
+    - name: include custom variables
+      include_vars:
+        file: vars.yml
+
+    - name: install all dependencies
+      include: installs.yml
+
+    - name: set aws credentials
+      include: credentials.yml
+
+    - name: clone Ansible git repo
+      include: clone.yml
+
+    - name: create ansible test user
+      include: ansible_test_user.yml
+
+    - name: run user verification tests
+      include: tests.yml

@@ -1,0 +1,51 @@
+---
+# File:
+
+- name: install selinux dependency
+  package:
+    name: libselinux-python
+    state: latest
+
+- name: install git
+  package:
+    name: git
+    state: latest
+
+- name: install docker
+  package:
+    name: docker
+    state: latest
+
+- name: create docker group
+  group:
+    name: docker
+    state: present
+
+- name: add user to docker group
+  user:
+    name: "{{ ansible_user_id }}"
+    groups: docker
+
+- name: restart docker service
+  service:
+    name: docker
+    state: restarted
+
+- name: reset ssh connection to allow user changes to affect 'current login user'
+  meta: reset_connection
+
+- name: install botocore
+  pip:
+    name: botocore
+
+- name: install boto3
+  pip:
+    name: boto3
+
+- name: install boto
+  pip:
+    name: boto
+
+- name: install awscli
+  pip:
+    name: awscli
