@@ -1,0 +1,38 @@
+---
+# File:
+
+- name: playbook to stage environment for running ansible tests
+  hosts: localhost
+  gather_facts: yes
+  tasks:
+
+    - name: include variables
+      include_vars:
+        file: "{{ item }}"
+      with_items:
+        - vars/user_vars.yml
+        - vars/playbook_vars.yml
+
+    - name: install all dependencies
+      include_tasks: dependencies.yml
+      become: yes
+
+    - name: set aws credentials
+      include_tasks: credentials.yml
+
+    - name: clone ansible git repo
+      include_tasks: clone.yml
+
+    - name: create ansible test user
+      include_tasks: test_user/main.yml
+
+    - name: run tasks that require environment variables
+      include_tasks: environment_tasks/main.yml
+      environment:
+        AWS_ACCESS_KEY_ID: "{{ ansible_test_user_session_token.sts_creds.access_key }}"
+        AWS_SECRET_ACCESS_KEY: "{{ ansible_test_user_session_token.sts_creds.secret_key }}"
+        AWS_SESSION_TOKEN: "{{ ansible_test_user_session_token.sts_creds.session_token }}"
+        AWS_REGION: "{{ aws_test_region }}"
+
+    - debug:
+        msg: "before running ansible tests from the command line, run source ~/ansible/hacking/env-setup"

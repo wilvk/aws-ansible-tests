@@ -1,0 +1,22 @@
+---
+# File:
+
+## please set your custom variables here:
+
+# the username of your github account:
+github_username: 
+
+# your AWS admin user name:
+aws_admin_user: 
+
+# your admin AWS access key:
+aws_admin_access_key: 
+
+# your admin AWS secret access key:
+aws_admin_secret_access_key: 
+
+# your AWS ansible testing account (e.g. ansible_test):
+aws_ansible_test_user:
+
+# your AWS region (eg. us-west-1):
+aws_test_region:

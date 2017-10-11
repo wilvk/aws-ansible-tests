@@ -1,0 +1,8 @@
+---
+# File:
+
+hacking_source_command: source ~/ansible/hacking/env-setup
+
+aws_path: ~/.aws
+
+aws_credentials_file: "{{ aws_path }}/credentials"

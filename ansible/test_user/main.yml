@@ -1,0 +1,11 @@
+---
+# File:
+
+- name: create ansible test user
+  include_tasks: create_test_user.yml
+
+- name: set ansible cloud config details
+  include_tasks: set_cloud_config.yml
+
+- name: set aws environment variables
+  include_tasks: set_environment_variables.yml

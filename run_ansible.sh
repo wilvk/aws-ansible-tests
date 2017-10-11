@@ -2,4 +2,4 @@
 
 sudo yum -y install ansible
 
-ansible-playbook /vagrant/main.yml
+ansible-playbook /vagrant/ansible/main.yml
