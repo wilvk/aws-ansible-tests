@@ -39,10 +39,9 @@
     block: |
       [{{ aws_ansible_test_user }}]
       aws_access_key_id={{ ansible_test_user_access_keys.user_meta.access_keys[0].access_key_id }}
-      aws_secret_access_key={{ ansible_test_user_access_keys.user_meta.access_keys[0].secret_access_ke }}
+      aws_secret_access_key={{ ansible_test_user_access_keys.user_meta.access_keys[0].secret_access_key }}
 
 - name: get aws ansible test user session token
   sts_session_token:
     profile: "{{ aws_ansible_test_user }}"
-    region: "{{ aws_test_region }}"
   register: ansible_test_user_session_token
