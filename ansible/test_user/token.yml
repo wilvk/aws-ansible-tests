@@ -5,17 +5,14 @@
   shell: aws sts get-session-token --profile={{ aws_admin_user }} --output=json
   register: test_user_token_out
 
-- debug:
-    var: test_user_token_out
+- set_fact:
+    test_user_token: "{{ test_user_token|from_json }}"
 
 - set_fact:
-    test_user_token: test_user_token|from_json
+    test_user_access_key_id: "{{ test_user_token.Credentials.AccessKeyId }}"
 
 - set_fact:
-    test_user_access_key_id: test_user_token.Credentials.AccessKeyId
+    test_user_secret_access_key: "{{ test_user_token.Credentials.SecretAccessKey }}"
 
 - set_fact:
-    test_user_secret_access_key: test_user_token.Credentials.SecretAccessKey
-
-- set_fact:
-    test_user_session_token: test_user_token.Credentials.SessionToken
+    test_user_session_token: "{{ test_user_token.Credentials.SessionToken }}"
