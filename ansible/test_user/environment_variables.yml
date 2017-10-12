@@ -3,7 +3,7 @@
 
 - name: add aws access key to bash profile
   lineinfile:
-    path: ~/ansible/test/integration/cloud-config-aws.yml
+    path: ~/.bash_profile
     regexp: '^export AWS_ACCESS_KEY_ID=.*$'
     line: 'export AWS_ACCESS_KEY_ID={{ test_user_access_key_id }}'
 
