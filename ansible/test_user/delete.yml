@@ -1,0 +1,15 @@
+---
+# File:
+
+- name: delete ansible test user {{ aws_ansible_test_user }}
+  iam:
+    name: "{{ aws_ansible_test_user }}"
+    iam_type: user
+    state: absent
+    profile: "{{ aws_admin_user }}"
+
+- name: delete ansible test group {{ aws_ansible_test_user }}
+  iam_group:
+    name: "{{ aws_ansible_test_user }}"
+    state: absent
+    profile: "{{ aws_admin_user }}"

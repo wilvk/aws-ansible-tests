@@ -1,12 +1,12 @@
 ---
 # File:
 
-- name: clone personal ansible repo
+- name: clone ansible repo of user {{ github_username }}
   git:
     repo: "https://github.com/{{ github_username }}/ansible"
     dest: ~/ansible
 
-- name: add remote upstream of Ansible
+- name: add remote upstream of ansible
   shell: git remote add upstream https://github.com/ansible/ansible
   args:
     chdir: ~/ansible

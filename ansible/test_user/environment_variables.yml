@@ -1,0 +1,26 @@
+---
+# File:
+
+- name: add aws access key to bash profile
+  lineinfile:
+    path: ~/ansible/test/integration/cloud-config-aws.yml
+    regexp: '^AWS_ACCESS_KEY_ID:.*$'
+    line: 'AWS_ACCESS_KEY_ID: {{ test_user_access_key_id }}'
+
+- name: add aws secret key to bash profile
+  lineinfile:
+    path: ~/.bash_profile
+    regexp: '^AWS_SECRET_ACCESS_KEY:.*$'
+    line: 'AWS_SECRET_ACCESS_KEY: {{ test_user_secret_access_key }}'
+
+- name: add aws session token to bash profile
+  lineinfile:
+    path: ~/.bash_profile
+    regexp: '^AWS_SESSION_TOKEN:.*$'
+    line: 'AWS_SESSION_TOKEN: {{ test_user_session_token }}'
+
+- name: add aws region to bash profile
+  lineinfile:
+    path: ~/.bash_profile
+    regexp: '^AWS_REGION:.*$'
+    line: 'AWS_REGION: {{ aws_test_region }}'

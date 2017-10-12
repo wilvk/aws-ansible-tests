@@ -1,0 +1,29 @@
+---
+# File:
+
+- name: create working cloud config aws file from template
+  shell: cp ~/ansible/test/integration/cloud-config-aws.yml.template ~/ansible/test/integration/cloud-config-aws.yml
+
+- name: add aws access key to config file
+  lineinfile:
+    path: ~/ansible/test/integration/cloud-config-aws.yml
+    regexp: '^aws_access_key:.*$'
+    line: 'aws_access_key: {{ test_user_access_key_id }}'
+
+- name: add aws secret key to config file
+  lineinfile:
+    path: ~/ansible/test/integration/cloud-config-aws.yml
+    regexp: '^aws_secret_key:.*$'
+    line: 'aws_secret_key: {{ test_user_secret_access_key }}'
+
+- name: add aws session token to config file
+  lineinfile:
+    path: ~/ansible/test/integration/cloud-config-aws.yml
+    regexp: '^security_token:.*$'
+    line: 'security_token: {{ test_user_session_token }}'
+
+- name: add aws region to config file
+  lineinfile:
+    path: ~/ansible/test/integration/cloud-config-aws.yml
+    regexp: '^aws_region:.*$'
+    line: 'aws_region: {{ aws_test_region }}'

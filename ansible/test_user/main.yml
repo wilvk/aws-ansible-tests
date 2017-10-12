@@ -1,11 +1,20 @@
 ---
 # File:
 
-- name: create ansible test user
-  include_tasks: create_test_user.yml
+- name: delete existing test user and group
+  include_tasks: delete.yml
+
+- name: create test user and group
+  include_tasks: create.yml
+
+- name: set credentials for test user
+  include_tasks: credentials.yml
+
+- name: generate token for test user
+  include_tasks: token.yml
 
 - name: set ansible cloud config details
-  include_tasks: set_cloud_config.yml
+  include_tasks: cloud_config.yml
 
 - name: set aws environment variables
-  include_tasks: set_environment_variables.yml
+  include_tasks: environment_variables.yml
