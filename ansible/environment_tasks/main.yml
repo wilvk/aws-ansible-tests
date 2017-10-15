@@ -1,8 +1,0 @@
----
-# File:
-
-- name: configure ansible iam user
-  include_tasks: configure_ansible_iam.yml
-
-- name: run user verification tests
-  include_tasks: tests.yml

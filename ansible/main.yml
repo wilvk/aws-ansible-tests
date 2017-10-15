@@ -27,12 +27,7 @@
       include_tasks: test_user/main.yml
 
     - name: run tasks that require environment variables
-      include_tasks: environment_tasks/main.yml
-      environment:
-        AWS_ACCESS_KEY_ID: "{{ ansible_test_user_session_token.sts_creds.access_key }}"
-        AWS_SECRET_ACCESS_KEY: "{{ ansible_test_user_session_token.sts_creds.secret_key }}"
-        AWS_SESSION_TOKEN: "{{ ansible_test_user_session_token.sts_creds.session_token }}"
-        AWS_REGION: "{{ aws_test_region }}"
+      include_tasks: tests.yml
 
     - debug:
         msg: "before running ansible tests from the command line, run source ~/ansible/hacking/env-setup"

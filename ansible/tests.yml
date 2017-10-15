@@ -1,0 +1,14 @@
+---
+# File:
+
+- name: configure ansible for aws test user
+  shell: "{{ hacking_source_command }} && ansible-playbook ~/ansible/hacking/aws_config/setup-iam.yml -e iam_group={{ aws_ansible_test_user }} -e profile={{ aws_admin_user }} -e region={{ aws_test_region }}"
+
+- name: verify admin user is set correctly
+  shell: "{{ hacking_source_command }} && aws sts get-caller-identity --profile={{ aws_admin_user }}"
+
+- name: checking ansible test user {{ aws_ansible_test_user }} is set correctly
+  shell: "source {{ bash_file_path }} && ansible -m shell -a 'aws sts get-caller-identity' -e @~/ansible/test/integration/cloud-config-aws.yml localhost"
+
+# - name: run basic ec2_group ansible tests to confirm all is working
+#   shell: "{{ hacking_source_command }} && ansible-test integration --docker -v ec2_group"
