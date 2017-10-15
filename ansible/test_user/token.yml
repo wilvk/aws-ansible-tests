@@ -1,18 +1,20 @@
 ---
 # File:
 
+- name: pause to allow test user to be created
+  pause:
+    seconds: 30
+
 - name: get aws ansible test user session token
-  shell: aws sts get-session-token --profile={{ aws_admin_user }} --output=json
+  shell: aws sts get-session-token --profile={{ aws_ansible_test_user }} --output=json
   register: test_user_token_out
 
-- set_fact:
-    test_user_token: "{{ test_user_token_out|to_json }}"
+- name: convert output to variables
+  set_fact:
+    test_user_token: "{{ test_user_token_out.stdout|from_json }}"
 
-- set_fact:
+- name: set variables for test user
+  set_fact:
     test_user_access_key_id: "{{ test_user_token.Credentials.AccessKeyId }}"
-
-- set_fact:
     test_user_secret_access_key: "{{ test_user_token.Credentials.SecretAccessKey }}"
-
-- set_fact:
     test_user_session_token: "{{ test_user_token.Credentials.SessionToken }}"
