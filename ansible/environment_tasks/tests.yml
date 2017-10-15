@@ -8,4 +8,4 @@
   shell: {{ hacking_source_command }} && ansible -m shell -a 'aws sts get-caller-identity' -e @~/ansible/test/integration/cloud-config-aws.yml localhost
 
 - name: run basic ec2_group ansible tests to confirm all is working
-  shell: {{ hacking_source_command }} && ansible-test intgration --docker -v ec2_group
+  shell: {{ hacking_source_command }} && ansible-test integration --docker -v ec2_group

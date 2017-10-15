@@ -6,6 +6,15 @@
     name: libselinux-python
     state: latest
 
+- name: install ntp
+  package:
+    name: ntp
+    state: latest
+
+- name: set date
+  shell: ntpd -gq
+  become: yes
+
 - name: install git
   package:
     name: git

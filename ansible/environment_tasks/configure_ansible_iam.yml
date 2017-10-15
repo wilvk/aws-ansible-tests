@@ -2,4 +2,4 @@
 # File:
 
 - name: configure ansible for aws test user
-  shell: "{{ hacking_source_command }} && ansible-playbook ~/ansible/hacking/aws_config/setup-iam.yml -e iam_group={{ aws_ansible_test_user }} -e profile={{ aws_admin_user }} -e region=${{ aws_test_region }}"
+  shell: "{{ hacking_source_command }} && ansible-playbook ~/ansible/hacking/aws_config/setup-iam.yml -e iam_group={{ aws_ansible_test_user }} -e profile={{ aws_admin_user }} -e region={{ aws_test_region }}"

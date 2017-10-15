@@ -6,7 +6,7 @@
   register: test_user_token_out
 
 - set_fact:
-    test_user_token: "{{ test_user_token|from_json }}"
+    test_user_token: "{{ test_user_token_out|to_json }}"
 
 - set_fact:
     test_user_access_key_id: "{{ test_user_token.Credentials.AccessKeyId }}"
