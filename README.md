@@ -85,4 +85,7 @@ e.g. to run the ec2_group tests, enter the following:
 ansible-test integration --docker -v ec2_group
 ```
 
+# TODO:
 
+- Fix user validations - use proper asserts
+- Get ec2_group test working in Ansible
