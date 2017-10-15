@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a Vagrant box that allows the running of Ansible tests in Docker.
+This is a Vagrant box that allows the running of Ansible tests for AWS using Docker.
 Tested on Mac OSX.
 
 ## Prerequisites
