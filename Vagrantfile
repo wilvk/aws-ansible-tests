@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "fedora/26-cloud-base"
+  config.vm.box = "centos/7"
   if Vagrant::Util::Platform.windows? then
     config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
   end
