@@ -40,6 +40,16 @@
     name: docker
     state: restarted
 
+- name: install epel-release branch
+  package:
+    name: epel-release
+    state: present
+
+- name: install python-pip
+  package:
+    name: python-pip
+    state: present
+
 - name: install botocore
   pip:
     name: botocore

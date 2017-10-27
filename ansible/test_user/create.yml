@@ -18,8 +18,3 @@
     groups: "{{ aws_ansible_test_user }}"
     profile: "{{ aws_admin_user }}"
   register: ansible_test_user_access_keys
-
-- name: generate a 1 day security token
-  sts_session_token:
-    duration_seconds: 3600
-  register: session_credentials

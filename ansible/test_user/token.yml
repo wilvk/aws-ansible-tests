@@ -5,22 +5,15 @@
   pause:
     seconds: 30
 
-# - name: get aws ansible test user session token
-#   shell: aws sts get-session-token --profile={{ aws_ansible_test_user }} --output=json
-#   register: test_user_token_out
-
-- name: get aws ansible test user session token
+- name: get aws ansible test user session token valid for 1 day
   sts_session_token:
     duration_seconds: 86400
     profile: "{{ aws_ansible_test_user }}"
+    region: "{{ aws_test_region }}"
   register: test_user_credentials
-
-# - name: convert output to variables
-#   set_fact:
-#     test_user_token: "{{ test_user_token_out.stdout|from_json }}"
 
 - name: set variables for test user
   set_fact:
-    test_user_access_key_id: "{{ test_user_credentials.sts_creds.AccessKeyId }}"
-    test_user_secret_access_key: "{{ test_user_credentials.sts_creds.SecretAccessKey }}"
-    test_user_session_token: "{{ test_user_credentials.sts_creds.SessionToken }}"
+    test_user_access_key_id: "{{ test_user_credentials.sts_creds.access_key }}"
+    test_user_secret_access_key: "{{ test_user_credentials.sts_creds.secret_key }}"
+    test_user_session_token: "{{ test_user_credentials.sts_creds.session_token }}"
