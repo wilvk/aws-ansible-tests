@@ -1,4 +1,4 @@
-# vagrant-ansible-tests
+# aws-ansible-tests
 
 ## Overview
 
