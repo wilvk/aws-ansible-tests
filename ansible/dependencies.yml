@@ -35,6 +35,11 @@
     name: "{{ ansible_user_id }}"
     groups: docker
 
+- name: start docker service at boot
+  service:
+    name: docker
+    enabled: yes
+
 - name: restart docker service
   service:
     name: docker
@@ -49,6 +54,11 @@
   package:
     name: python-pip
     state: present
+
+- name: install vim
+  package:
+    name: vim
+    state: latest
 
 - name: install botocore
   pip:
